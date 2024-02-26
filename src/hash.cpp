@@ -7,7 +7,7 @@
  */
 #include <iostream>
 #include <string>
-#include "hash.h"
+#include "../include/hash.hpp"
 
 using namespace std;
 
@@ -48,13 +48,13 @@ unsigned int* getChunks(string input)
 
 unsigned int hash_function(string text)
 {
+    // inspired from murmur hash
     unsigned int hash = 0x13371337;
     unsigned int seed = 0xb00b5;
     unsigned int c1 = 0xdeadbeef; // 0xdeadbeef
     unsigned int m = 0xcafebabe; // 0xcafebabe;
     unsigned int lucky_number = 16;
 
-    // Implement your own hash function here
     unsigned int* chunks = getChunks(text);
     int numChunks = numOfChunks(text);
 

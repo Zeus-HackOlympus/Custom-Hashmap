@@ -8,8 +8,8 @@ Your team alias:
 #include <cmath>
 #include <iostream>
 #include <string>
-#include "hash.h"
-#include "hashmap.hpp"
+#include "../include/hash.hpp"
+#include "../include/hashmap.hpp"
 using namespace std;
 
 int main(int argc, char* argv[])

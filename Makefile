@@ -1,15 +1,35 @@
 CXX := g++
 CXXFLAGS := -Wall
-SRC := $(wildcard *.cpp)
+SRC := $(wildcard ./src/*.cpp)
+OBJ := ./build/obj
+BIN := ./build/bin
 TARGET := encoder
+INCLUDE := -I include/
+OBJECTS := $(SRC:./src/%.cpp=$(OBJ)/%.o)
 
-.phony: all debug clean
+.PHONY: all debug clean dirs
 
-all:
-	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET)
+all: dirs $(BIN)/$(TARGET)
 
-debug:
-	$(CXX) $(CXXFLAGS) $(SRC) -ggdb -o $(TARGET)
+# $< first dependency
+# $@ target
+
+$(BIN)/$(TARGET): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $@
+	@echo "execute $(TARGET)"
+	@ln -s $@ $(TARGET)
+
+$(OBJ)/%.o: ./src/%.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@ -MP -MMD
+
+dirs:
+	@mkdir -p $(BIN)
+	@mkdir -p $(OBJ)
+
+debug: CXXFLAGS += -ggdb
+debug: all
 
 clean:
-	-@rm -rf $(TARGET)
+	@echo "removing $(BIN) $(OBJ)"
+	@rm -rf $(BIN) $(OBJ)
+

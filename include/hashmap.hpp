@@ -16,7 +16,7 @@ typedef struct slots {
 class hashmap {
 private:
     slots* array;
-    size_t numberOfSlots;
+    int numberOfSlots;
 
 public:
     hashmap(int num);

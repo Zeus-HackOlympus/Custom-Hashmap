@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -Wall
+CXXFLAGS := -Wall -lxxhash
 SRC := $(wildcard ./src/*.cpp)
 OBJ := ./build/obj
 BIN := ./build/bin
@@ -20,7 +20,7 @@ $(BIN)/$(TARGET): $(OBJECTS)
 	@ln -s $@ $(TARGET)
 
 $(OBJ)/%.o: ./src/%.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@ -MP -MMD
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@ -MP -MMD 
 
 dirs:
 	@mkdir -p $(BIN)

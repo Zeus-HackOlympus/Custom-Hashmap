@@ -8,7 +8,7 @@ Your team alias:
 #include <cmath>
 #include <iostream>
 #include <string>
-#include "../include/hash.hpp"
+#include "xxhash64.h"
 #include "../include/hashmap.hpp"
 using namespace std;
 
@@ -32,9 +32,12 @@ int main(int argc, char* argv[])
 
     hashmap map = *new hashmap(n);
 
+    // traverse through all the n inputs
     for (int i = 0; i < n; i++) {
+
         string data = texts[i];
-        int index = hash_function(data) % n;
+        unsigned int hash = XXHash64::hash(data.c_str(), data.size(), 0);
+        size_t index = hash % k;
         map.insert(index, data);
     }
 
@@ -45,10 +48,10 @@ int main(int argc, char* argv[])
 
     cout << "==== Printing the slot lengths ====" << endl;
     float sum = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < k; i++) {
         int length = map.getCollectionLength(i);
         sum += length;
-        cout << "Slot: " << i << " " << length << endl;
+        cout << "Slot " << i << ": " << length << endl;
     }
 
     cout << "==== Printing the standard variance =====" << endl;

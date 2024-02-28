@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < n; i++) {
         string data = texts[i];
-        int index = hash_function(data) % n;
+        size_t index = hash_function(data) % k;
         map.insert(index, data);
     }
 
@@ -45,10 +45,10 @@ int main(int argc, char* argv[])
 
     cout << "==== Printing the slot lengths ====" << endl;
     float sum = 0;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < k; i++) {
         int length = map.getCollectionLength(i);
         sum += length;
-        cout << "Slot: " << i << " " << length << endl;
+        cout << "Slot " << i << ": " << length << endl;
     }
 
     cout << "==== Printing the standard variance =====" << endl;

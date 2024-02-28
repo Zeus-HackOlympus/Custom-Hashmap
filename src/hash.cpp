@@ -6,13 +6,14 @@
  *
  */
 #include "../include/hash.hpp"
-#include <sched.h>
+
+#define CHUNK_LENGTH 4
 
 using namespace std;
 
 int numOfChunks(string text)
 {
-    return (text.length() + 3) / 4;
+    return (text.length() + 3) / CHUNK_LENGTH;
 }
 
 unsigned int* getChunks(string input)
@@ -27,14 +28,14 @@ unsigned int* getChunks(string input)
         unsigned chunk = 0;
 
         int i;
-        for (i = 0; i < 4 && *data != '\0'; i++) {
+        for (i = 0; i < CHUNK_LENGTH && *data != '\0'; i++) {
             chunk = chunk << 8;
             chunk = chunk | *data;
             data++;
         }
 
         // if string size not in multiples of 4, add padding of null bytes
-        while (i < 4) {
+        while (i < CHUNK_LENGTH) {
             chunk = chunk << 8;
             i++;
         }
@@ -47,36 +48,9 @@ unsigned int* getChunks(string input)
 
 unsigned int hash_function(string text)
 {
-    //
-    // // inspired from murmur hash
-    // unsigned int hash = 0x13371337;
-    // unsigned int seed = 0xb00b5;
-    // unsigned int c1 = 0xdeadbeef; // 0xdeadbeef
-    // unsigned int m = 0xcafebabe; // 0xcafebabe;
-    // unsigned int lucky_number = 16;
-    //
-    // unsigned int* chunks = getChunks(text);
-    // int numChunks = numOfChunks(text);
-    //
-    // for (int i = 0; i < numChunks; i++) {
-    //     unsigned int chunk = chunks[i];
-    //     hash = hash * m;
-    //     hash = hash >> lucky_number;
-    //     hash = hash * chunk;
-    //     hash = hash | seed;
-    // }
-    //
-    // return hash;
+    unsigned int primes[] = { 0x859b35, 0x5c0939, 0x70f849, 0x6c40c7, 0x912515 };
 
-    unsigned int seed = 0xb00b5;
-    unsigned int c1 = 0xdeadbeef; // 0xdeadbeef
-    unsigned int m = 0xcafebabe; // 0xcafebabe;
-    unsigned int lucky_number = 7;
-
-    unsigned int prime1 = 0x8E0487;
-    unsigned int prime4 = 0x9F02C5;
-    unsigned int prime3 = 0x8E04DD;
-    unsigned int prime2 = 0x9F02A7;
+    int sizePrimes = sizeof(primes) / sizeof(primes[0]);
 
     unsigned int* chunks = getChunks(text);
     int numChunks = numOfChunks(text);
@@ -84,19 +58,9 @@ unsigned int hash_function(string text)
 
     for (int i = 1; i < numChunks; i++) {
         unsigned int chunk = chunks[i];
-        // chunk1
-        hash = hash * prime1;
-        hash = chunk ^ hash;
-        // chunk2
-        hash = hash * prime2;
-        hash = chunk ^ hash;
-        // chunk3
-        hash = hash * prime3;
-        hash = chunk ^ hash;
-        // chunk4
-        hash = hash * prime4;
-        hash = chunk ^ hash;
+        for (int i = 0; i < sizePrimes; i++) {
+            hash = (hash * primes[i]) ^ chunk;
+        }
     }
-
     return hash;
 }

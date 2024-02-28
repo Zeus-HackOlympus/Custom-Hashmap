@@ -32,4 +32,7 @@ debug: all
 clean:
 	@echo "removing $(BIN) $(OBJ)"
 	@rm -rf $(BIN) $(OBJ)
+	@echo "removing symlink"
+	@rm -rf $(TARGET)
+
 

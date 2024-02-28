@@ -8,7 +8,7 @@ Your team alias:
 #include <cmath>
 #include <iostream>
 #include <string>
-#include "../include/hash.hpp"
+#include "xxhash64.h"
 #include "../include/hashmap.hpp"
 using namespace std;
 
@@ -32,9 +32,12 @@ int main(int argc, char* argv[])
 
     hashmap map = *new hashmap(n);
 
+    // traverse through all the n inputs
     for (int i = 0; i < n; i++) {
+
         string data = texts[i];
-        size_t index = hash_function(data) % k;
+        unsigned int hash = XXHash64::hash(data.c_str(), data.size(), 0);
+        size_t index = hash % k;
         map.insert(index, data);
     }
 

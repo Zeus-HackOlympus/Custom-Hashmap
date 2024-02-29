@@ -46,21 +46,67 @@ unsigned int* getChunks(string input)
     return chunks;
 }
 
+// unsigned int hash_function(string text)
+// {
+//     unsigned int primes[] = { 0x859b35, 0x5c0939, 0x70f849, 0x6c40c7, 0x912515 };
+//
+//     int sizePrimes = sizeof(primes) / sizeof(primes[0]);
+//
+//     unsigned int* chunks = getChunks(text);
+//     int numChunks = numOfChunks(text);
+//     unsigned int hash = 5011;
+//
+//     for (int i = 0; i < numChunks; i++) {
+//         unsigned int chunk = chunks[i];
+//         hash ^= primes[0];
+//         hash += chunk;
+//         hash += (hash << 7);
+//         hash ^= (hash >> 6);
+//     }
+//     hash += (hash << 3);
+//     hash ^= (hash >> 11);
+//     hash += (hash << 15);
+//     return hash;
+// }
+
+// unsigned int hash_function(string text)
+// {
+//
+//     unsigned int prime1 = 0x859b35;
+//     unsigned int prime2 = 0x5c0939;
+//     unsigned int prime3 = 0x70f849;
+//     unsigned int prime4 = 0x6c40c7;
+//
+//     const char* str = text.c_str();
+//     unsigned long hash = 0;
+//     int c;
+//
+//     while ((c = *str++)) {
+//         hash = hash + (c << 6);
+//         hash ^= prime1;
+//         hash = (hash << 16);
+//         hash ^= prime2;
+//         hash += prime3;
+//     }
+//
+//     return hash;
+// }
+
 unsigned int hash_function(string text)
 {
-    unsigned int primes[] = { 0x859b35, 0x5c0939, 0x70f849, 0x6c40c7, 0x912515 };
-
-    int sizePrimes = sizeof(primes) / sizeof(primes[0]);
-
     unsigned int* chunks = getChunks(text);
-    int numChunks = numOfChunks(text);
-    unsigned int hash = chunks[0];
+    int nchunks = numOfChunks(text);
 
-    for (int i = 1; i < numChunks; i++) {
-        unsigned int chunk = chunks[i];
-        for (int i = 0; i < sizePrimes; i++) {
-            hash = (hash * primes[i]) ^ chunk;
-        }
+    unsigned int key;
+
+    for (unsigned int key : chunks) {
+        key = (~key) + (key << 21); // key = (key << 21) - key - 1;
+        key = key ^ (key >> 24);
+        key = (key + (key << 3)) + (key << 8); // key * 265
+        key = key ^ (key >> 14);
+        key = (key + (key << 2)) + (key << 4); // key * 21
+        key = key ^ (key >> 28);
+        key = key + (key << 31);
     }
-    return hash;
+    return key;
 }

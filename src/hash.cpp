@@ -15,18 +15,18 @@ unsigned int hash_function(string text)
 
     for (int i = 0; i < text.size(); i++) {
         hash += (int)text[i];
+
+        hash += (hash << 12);
+        hash ^= (hash >> 22);
+        hash += (hash << 4);
+        hash ^= (hash >> 9);
+        hash += (hash << 10);
+        hash += (hash << 7);
+        hash ^= (hash >> 2);
+        hash ^= (hash >> 12);
+
+        /* Knuth's Multiplicative Method */
+        hash = (hash >> 3) * 2654435761;
     }
-
-    // hash += (hash << 12);
-    // hash ^= (hash >> 22);
-    // hash += (hash << 4);
-    // hash ^= (hash >> 9);
-    // hash += (hash << 10);
-    // hash += (hash << 7);
-    // hash ^= (hash >> 2);
-    // hash ^= (hash >> 12);
-
-    /* Knuth's Multiplicative Method */
-    // hash = (hash >> 3) * 2654435761;
     return hash;
 }

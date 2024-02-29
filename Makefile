@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -Wall
+CXXFLAGS := -Wall -O3
 SRC := $(wildcard ./src/*.cpp)
 OBJ := ./build/obj
 BIN := ./build/bin

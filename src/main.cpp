@@ -32,6 +32,8 @@ int main(int argc, char* argv[])
 
     hashmap map = *new hashmap(n);
 
+    cout << "k = " << k << endl;
+
     for (int i = 0; i < n; i++) {
         string data = texts[i];
         size_t index = hash_function(data) % k;
@@ -53,7 +55,7 @@ int main(int argc, char* argv[])
 
     cout << "==== Printing the standard variance =====" << endl;
     float N = k;
-    float mean = sum / n;
+    float mean = sum / N;
 
     sum = 0;
 
@@ -63,10 +65,9 @@ int main(int argc, char* argv[])
         sum += x;
     }
 
-    float variance = (1 / N) * sum;
+    float variance = (sum / N);
 
     float std_dev = sqrt(variance);
     cout << std_dev << endl;
-
     return 0;
 }

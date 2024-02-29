@@ -92,6 +92,8 @@ unsigned int* getChunks(string input)
 //     return hash;
 // }
 
+
+// wang hash
 unsigned int hash_function(string text)
 {
     unsigned int* chunks = getChunks(text);
@@ -99,7 +101,7 @@ unsigned int hash_function(string text)
 
     unsigned int key;
 
-    for (unsigned int key : chunks) {
+    for (int i = 0; i < nchunks; i++) {
         key = (~key) + (key << 21); // key = (key << 21) - key - 1;
         key = key ^ (key >> 24);
         key = (key + (key << 3)) + (key << 8); // key * 265

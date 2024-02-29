@@ -46,28 +46,6 @@ unsigned int* getChunks(string input)
     return chunks;
 }
 
-// unsigned int hash_function(string text)
-// {
-//     unsigned int primes[] = { 0x859b35, 0x5c0939, 0x70f849, 0x6c40c7, 0x912515 };
-//
-//     int sizePrimes = sizeof(primes) / sizeof(primes[0]);
-//
-//     unsigned int* chunks = getChunks(text);
-//     int numChunks = numOfChunks(text);
-//     unsigned int hash = 5011;
-//
-//     for (int i = 0; i < numChunks; i++) {
-//         unsigned int chunk = chunks[i];
-//         hash ^= primes[0];
-//         hash += chunk;
-//         hash += (hash << 7);
-//         hash ^= (hash >> 6);
-//     }
-//     hash += (hash << 3);
-//     hash ^= (hash >> 11);
-//     hash += (hash << 15);
-//     return hash;
-// }
 
 // unsigned int hash_function(string text)
 // {
@@ -83,32 +61,28 @@ unsigned int* getChunks(string input)
 //
 //     while ((c = *str++)) {
 //         hash = hash + (c << 6);
-//         hash ^= prime1;
 //         hash = (hash << 16);
-//         hash ^= prime2;
-//         hash += prime3;
 //     }
 //
 //     return hash;
 // }
 
-
 // wang hash
-unsigned int hash_function(string text)
-{
-    unsigned int* chunks = getChunks(text);
-    int nchunks = numOfChunks(text);
-
-    unsigned int key;
-
-    for (int i = 0; i < nchunks; i++) {
-        key = (~key) + (key << 21); // key = (key << 21) - key - 1;
-        key = key ^ (key >> 24);
-        key = (key + (key << 3)) + (key << 8); // key * 265
-        key = key ^ (key >> 14);
-        key = (key + (key << 2)) + (key << 4); // key * 21
-        key = key ^ (key >> 28);
-        key = key + (key << 31);
-    }
-    return key;
-}
+// unsigned int hash_function(string text)
+// {
+//     unsigned int hash = 0;
+//
+//     for (char c : text) {
+//         hash = hash << 8;
+//         hash |= (int)c;
+//     }
+//
+//     hash = (~hash) + (hash << 21); // hash = (hash << 21) - hash - 1;
+//     hash = hash ^ (hash >> 24);
+//     hash = (hash + (hash << 3)) + (hash << 8); // hash * 265
+//     hash = hash ^ (hash >> 14);
+//     hash = (hash + (hash << 2)) + (hash << 4); // hash * 21
+//     hash = hash ^ (hash >> 28);
+//     hash = hash + (hash << 31);
+//     return hash;
+// }

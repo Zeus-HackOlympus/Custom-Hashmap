@@ -47,55 +47,25 @@ unsigned int* getChunks(string input)
 
 unsigned int hash_function(string text)
 {
-    //
-    // // inspired from murmur hash
-    // unsigned int hash = 0x13371337;
-    // unsigned int seed = 0xb00b5;
-    // unsigned int c1 = 0xdeadbeef; // 0xdeadbeef
-    // unsigned int m = 0xcafebabe; // 0xcafebabe;
-    // unsigned int lucky_number = 16;
-    //
-    // unsigned int* chunks = getChunks(text);
-    // int numChunks = numOfChunks(text);
-    //
-    // for (int i = 0; i < numChunks; i++) {
-    //     unsigned int chunk = chunks[i];
-    //     hash = hash * m;
-    //     hash = hash >> lucky_number;
-    //     hash = hash * chunk;
-    //     hash = hash | seed;
-    // }
-    //
-    // return hash;
-
-    unsigned int seed = 0xb00b5;
-    unsigned int c1 = 0xdeadbeef; // 0xdeadbeef
-    unsigned int m = 0xcafebabe; // 0xcafebabe;
-    unsigned int lucky_number = 7;
-
     unsigned int prime1 = 0x8E0487;
-    unsigned int prime4 = 0x9F02C5;
-    unsigned int prime3 = 0x8E04DD;
     unsigned int prime2 = 0x9F02A7;
+    unsigned int prime3 = 0x8E04DD;
+    unsigned int prime4 = 0x9F02C5;
 
     unsigned int* chunks = getChunks(text);
     int numChunks = numOfChunks(text);
-    unsigned int hash = chunks[0];
+    unsigned int hash = 9043;
 
     for (int i = 1; i < numChunks; i++) {
         unsigned int chunk = chunks[i];
-        // chunk1
-        hash = hash * prime1;
-        hash = chunk ^ hash;
-        // chunk2
-        hash = hash * prime2;
-        hash = chunk ^ hash;
-        // chunk3
-        hash = hash * prime3;
-        hash = chunk ^ hash;
-        // chunk4
-        hash = hash * prime4;
-        hash = chunk ^ hash;
+        hash = ((hash << 5) + hash) + chunk;
+        hash ^= prime1;
+        hash = ((hash << 5) + hash) + chunk;
+        hash ^= prime2;
+        hash = ((hash << 5) + hash) + chunk;
+        hash ^= prime3;
+        hash = ((hash << 5) + hash) + chunk;
+        hash ^= prime4;
     }
 
     return hash;

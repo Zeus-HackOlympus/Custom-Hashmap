@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
     cout << "==== Printing the standard variance =====" << endl;
     float N = k;
-    float mean = sum / n;
+    float mean = sum / N;
 
     sum = 0;
 
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
         sum += x;
     }
 
-    float variance = (1 / N) * sum;
+    float variance = (sum / N);
 
     float std_dev = sqrt(variance);
     cout << std_dev << endl;

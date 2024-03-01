@@ -6,6 +6,8 @@ Your team alias:
 */
 
 #include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include "../include/hash.hpp"
@@ -29,10 +31,7 @@ int main(int argc, char* argv[])
     }
 
     cout << "num of inputs: " << n << endl;
-
     hashmap map = *new hashmap(n);
-
-    cout << "k = " << k << endl;
 
     for (int i = 0; i < n; i++) {
         string data = texts[i];
@@ -68,6 +67,7 @@ int main(int argc, char* argv[])
     float variance = (sum / N);
 
     float std_dev = sqrt(variance);
+    // printf("%f %d %d\n", std_dev, seed, m);
     cout << std_dev << endl;
     return 0;
 }

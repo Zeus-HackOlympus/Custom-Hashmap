@@ -4,6 +4,30 @@
 ### Team Member 1: Anushka Tiwari
 ### Team Member 2: Vishal Juneja 
 
+## HashMap
+
+Hashmap has 2 structures: 
+
+slot:
+```
+typedef struct slot {
+    string data;
+    slot* next;
+} slot;
+```
+
+slots:
+```
+typedef struct slots {
+    int collection_length;
+    slot* collection; 
+} slots;
+```
+
+so `slot` is basically node of LinkedList and `slots` is element of hashmap which contains length of nodes (size of slot) and pointer to head of LinkedList.
+
+## The Hash Function
+
 We took inspiration from Wang hash and Jenkins Hash to create our own hash function. 
 
 Here is the code for it: 

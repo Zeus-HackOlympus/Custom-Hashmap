@@ -67,7 +67,7 @@ Later on we wanted to get the best possible standard deviation, for that we brut
 ```bash
 #!/bin/bash
 
-for seed in $(seq 26 256); do
+for seed in $(seq 0 256); do
     for m in $(seq 0 256); do
         i=0
         sum=0
